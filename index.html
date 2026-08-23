@@ -8,32 +8,33 @@
         * { margin: 0; padding: 0; box-sizing: border-box; touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
         body { background: #121212; font-family: 'Hiragino Kaku Gothic ProN', sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; overflow: hidden; color: #fff; }
         
-        #outer-container { width: 100vw; height: 100vh; max-width: 450px; max-height: 850px; display: flex; flex-direction: column; justify-content: space-between; align-items: center; background: #1e1e24; padding: 12px; box-shadow: 0 0 20px rgba(0,0,0,0.8); position: relative; }
+        #outer-container { width: 100vw; height: 100vh; max-width: 450px; max-height: 850px; display: flex; flex-direction: column; justify-content: space-between; align-items: center; background: #1e1e24; padding: 10px; box-shadow: 0 0 20px rgba(0,0,0,0.8); position: relative; }
         
-        #game-header { width: 100%; display: flex; justify-content: space-between; align-items: center; padding: 4px 8px; font-weight: bold; font-size: 15px; color: #FFD700; }
-        #sound-toggle { font-size: 18px; background: #333; border: 1px solid #555; color: white; padding: 4px 12px; border-radius: 20px; cursor: pointer; }
+        #game-header { width: 100%; display: flex; justify-content: space-between; align-items: center; padding: 4px; color: #FFD700; }
+        #game-header span { font-weight: bold; font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        #sound-toggle { font-size: 16px; background: #333; border: 1px solid #555; color: white; padding: 2px 10px; border-radius: 20px; cursor: pointer; }
 
-        #canvas-wrapper { width: 100%; flex: 1; position: relative; overflow: hidden; border-radius: 16px; background: #87CEEB; border: 3px solid #444; margin: 8px 0; }
+        #canvas-wrapper { width: 100%; flex: 1; position: relative; overflow: hidden; border-radius: 16px; background: #87CEEB; border: 2px solid #444; margin: 6px 0; }
         canvas { width: 100%; height: 100%; display: block; }
         
-        #game-footer { width: 100%; background: #2a2a35; padding: 12px; border-radius: 12px; display: flex; justify-content: space-around; align-items: center; border: 1px solid #3d3d4e; }
+        #game-footer { width: 100%; background: #2a2a35; padding: 10px; border-radius: 12px; display: flex; justify-content: space-around; align-items: center; border: 1px solid #3d3d4e; }
         .stat-box { text-align: center; }
-        .stat-label { font-size: 11px; color: #aaa; text-transform: uppercase; letter-spacing: 1px; }
-        .stat-value { font-size: 22px; font-weight: 900; color: #00E676; }
+        .stat-label { font-size: 10px; color: #aaa; text-transform: uppercase; letter-spacing: 1px; }
+        .stat-value { font-size: 20px; font-weight: 900; color: #00E676; }
         .stat-value.high { color: #FFD700; }
 
-        .ui-screen { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; background: rgba(0,0,0,0.5); color: white; text-align: center; padding: 20px; z-index: 20; backdrop-filter: blur(2px); }
-        h1 { font-size: 24px; margin-bottom: 8px; color: #FFD700; text-shadow: 2px 2px 4px #000; font-weight: 900; }
-        .catchphrase { font-size: 13px; color: #FFF; background: #FF5722; padding: 4px 14px; border-radius: 20px; margin-bottom: 16px; font-weight: bold; }
+        .ui-screen { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; background: rgba(0,0,0,0.6); color: white; text-align: center; padding: 16px; z-index: 20; backdrop-filter: blur(2px); }
+        h1 { font-size: 20px; margin-bottom: 6px; color: #FFD700; text-shadow: 2px 2px 4px #000; font-weight: 900; }
+        .catchphrase { font-size: 12px; color: #FFF; background: #FF5722; padding: 3px 12px; border-radius: 20px; margin-bottom: 12px; font-weight: bold; }
         
-        input[type="text"] { width: 80%; padding: 10px 15px; font-size: 16px; border-radius: 20px; border: 2px solid #FF5722; background: #222; color: #fff; text-align: center; margin-bottom: 15px; outline: none; }
+        input[type="text"] { width: 80%; padding: 8px 12px; font-size: 15px; border-radius: 20px; border: 2px solid #FF5722; background: #222; color: #fff; text-align: center; margin-bottom: 12px; outline: none; }
         
-        button { padding: 14px 28px; font-size: 18px; font-weight: bold; background: #FF5722; color: white; border: none; border-radius: 30px; cursor: pointer; margin: 8px; box-shadow: 0 4px #BF360C; width: 80%; max-width: 240px; transition: transform 0.1s; }
+        button { padding: 12px 24px; font-size: 16px; font-weight: bold; background: #FF5722; color: white; border: none; border-radius: 30px; cursor: pointer; margin: 6px; box-shadow: 0 4px #BF360C; width: 80%; max-width: 220px; transition: transform 0.1s; }
         button:active { transform: translateY(2px); box-shadow: 0 2px #BF360C; }
 
-        .ranking-box { width: 90%; background: rgba(255,255,255,0.15); border-radius: 12px; padding: 10px; margin: 10px 0; font-size: 13px; text-align: left; }
-        .ranking-title { font-weight: bold; color: #FFD700; border-bottom: 1px solid rgba(255,255,255,0.2); padding-bottom: 4px; margin-bottom: 6px; text-align: center; }
-        .ranking-item { display: flex; justify-content: space-between; padding: 3px 6px; }
+        .ranking-box { width: 90%; background: rgba(255,255,255,0.15); border-radius: 10px; padding: 8px; margin: 8px 0; font-size: 12px; text-align: left; }
+        .ranking-title { font-weight: bold; color: #FFD700; border-bottom: 1px solid rgba(255,255,255,0.2); padding-bottom: 4px; margin-bottom: 4px; text-align: center; }
+        .ranking-item { display: flex; justify-content: space-between; padding: 2px 4px; }
         .ranking-item.me { background: rgba(255, 215, 0, 0.3); border-radius: 4px; font-weight: bold; color: #FFD700; }
     </style>
 </head>
@@ -52,7 +53,7 @@
         <div id="start-screen" class="ui-screen">
             <h1>🌸 お花畑のウリボダッシュ！</h1>
             <div class="catchphrase">「ウリボしか勝たぬぅー！」</div>
-            <p style="margin-bottom:10px; font-size: 13px;">お名前を入力してスタート！</p>
+            <p style="margin-bottom:8px; font-size: 12px;">お名前を入力してスタート！</p>
             <input type="text" id="player-name-input" placeholder="名前を入力（例: ウリボ王）" maxlength="10">
             <button id="start-btn">ゲームスタート！</button>
         </div>
@@ -60,7 +61,7 @@
         <!-- ゲームオーバー画面 -->
         <div id="gameover-screen" class="ui-screen" style="display: none;">
             <h1 style="color:#FF5252;">💥 激突 GAMEOVER!!</h1>
-            <p id="final-score-text" style="font-size: 18px; font-weight: bold; margin: 6px 0; color: #FFF;">走行距離: 0m</p>
+            <p id="final-score-text" style="font-size: 16px; font-weight: bold; margin: 4px 0; color: #FFF;">走行距離: 0m</p>
             
             <div class="ranking-box">
                 <div class="ranking-title">🏆 全国ランキング (TOP 5)</div>
@@ -95,7 +96,6 @@ function resize() {
 resize();
 window.addEventListener('resize', resize);
 
-// 正しいファイル名（0823）に修正
 const bgImg = new Image();
 bgImg.src = 'Screenshot_20260823-100724.png';
 let imageLoaded = false;
@@ -183,7 +183,7 @@ let gameState = 'START';
 let score = 0;
 let highScore = parseInt(localStorage.getItem('uribo_highscore') || '0');
 let playerName = localStorage.getItem('uribo_playername') || '';
-let gameSpeed = 6;
+let gameSpeed = 5;
 let bgOffsetX = 0;
 
 document.getElementById('high-score-disp').innerText = `${highScore}m`;
@@ -192,11 +192,11 @@ if (playerName) document.getElementById('player-name-input').value = playerName;
 const player = {
     x: 40,
     y: 0,
-    width: 80,
-    height: 70,
+    width: 65,
+    height: 55,
     vy: 0,
-    gravity: 0.7,
-    jumpPower: -13.5,
+    gravity: 0.65,
+    jumpPower: -12.5,
     isGrounded: false
 };
 
@@ -205,10 +205,10 @@ let spawnTimer = 0;
 let nextSpawnDelay = 50;
 
 const obstacleTypes = [
-    { type: 'rock', width: 40, height: 40 },
-    { type: 'big_rock', width: 55, height: 55 },
-    { type: 'mushroom', width: 38, height: 48 },
-    { type: 'stump', width: 45, height: 38 }
+    { type: 'rock', width: 35, height: 35 },
+    { type: 'big_rock', width: 48, height: 48 },
+    { type: 'mushroom', width: 32, height: 42 },
+    { type: 'stump', width: 40, height: 34 }
 ];
 
 function doJump() {
@@ -258,8 +258,8 @@ function startGame() {
     localStorage.setItem('uribo_playername', playerName);
 
     score = 0;
-    gameSpeed = 6;
-    const gHeight = canvas.height * 0.22;
+    gameSpeed = 5;
+    const gHeight = canvas.height * 0.2;
     player.y = canvas.height - gHeight - player.height;
     player.vy = 0;
     player.isGrounded = true;
@@ -277,8 +277,8 @@ function startGame() {
 function update() {
     if (gameState !== 'PLAYING') return;
 
-    score += 0.18;
-    gameSpeed = 6 + (score / 40);
+    score += 0.15;
+    gameSpeed = 5 + (score / 50);
     const roundedScore = Math.floor(score);
     document.getElementById('current-score-disp').innerText = `${roundedScore}m`;
 
@@ -288,9 +288,7 @@ function update() {
         document.getElementById('high-score-disp').innerText = `${highScore}m`;
     }
 
-    bgOffsetX = (bgOffsetX + gameSpeed * 0.6) % canvas.width;
-
-    const gHeight = canvas.height * 0.22;
+    const gHeight = canvas.height * 0.2;
     const floorY = canvas.height - gHeight - player.height;
 
     player.vy += player.gravity;
@@ -307,13 +305,13 @@ function update() {
         const typeObj = obstacleTypes[Math.floor(Math.random() * obstacleTypes.length)];
         obstacles.push({
             x: canvas.width,
-            y: canvas.height - gHeight - typeObj.height + 5,
+            y: canvas.height - gHeight - typeObj.height + 4,
             width: typeObj.width,
             height: typeObj.height,
             type: typeObj.type
         });
         spawnTimer = 0;
-        const minDelay = Math.max(25, 60 - Math.floor(gameSpeed * 2.5));
+        const minDelay = Math.max(30, 65 - Math.floor(gameSpeed * 2.5));
         nextSpawnDelay = Math.floor(Math.random() * 35) + minDelay;
     }
 
@@ -322,14 +320,14 @@ function update() {
         obs.x -= gameSpeed;
 
         if (
-            player.x + 15 < obs.x + obs.width &&
-            player.x + player.width - 15 > obs.x &&
-            player.y + 10 < obs.y + obs.height &&
+            player.x + 10 < obs.x + obs.width &&
+            player.x + player.width - 10 > obs.x &&
+            player.y + 8 < obs.y + obs.height &&
             player.y + player.height > obs.y
         ) {
             gameState = 'GAMEOVER';
             playCrashSound();
-            document.getElementById('final-score-text').innerText = `走った距離: ${roundedScore}m`;
+            document.getElementById('final-score-text').innerText = `走行距離: ${roundedScore}m`;
             updateRankings(score, playerName);
             document.getElementById('gameover-screen').style.display = 'flex';
         }
@@ -341,21 +339,20 @@ function update() {
 function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    // 背景描画
+    // 1. 自然な背景（単一背景）の描画
     if (imageLoaded) {
-        ctx.drawImage(bgImg, -bgOffsetX, 0, canvas.width, canvas.height);
-        ctx.drawImage(bgImg, canvas.width - bgOffsetX, 0, canvas.width, canvas.height);
+        ctx.drawImage(bgImg, 0, 0, canvas.width, canvas.height);
     } else {
         ctx.fillStyle = '#87CEEB';
         ctx.fillRect(0, 0, canvas.width, canvas.height);
         ctx.fillStyle = '#81C784';
-        ctx.fillRect(0, canvas.height * 0.78, canvas.width, canvas.height * 0.22);
+        ctx.fillRect(0, canvas.height * 0.8, canvas.width, canvas.height * 0.2);
     }
 
-    // 障害物描画
+    // 2. 障害物の描画
     obstacles.forEach(obs => {
         if (obs.type === 'rock' || obs.type === 'big_rock') {
-            ctx.fillStyle = '#6D4C41';
+            ctx.fillStyle = '#5D4037';
             ctx.beginPath();
             ctx.ellipse(obs.x + obs.width/2, obs.y + obs.height/2, obs.width/2, obs.height/2, 0, 0, Math.PI*2);
             ctx.fill();
@@ -367,30 +364,44 @@ function draw() {
             ctx.arc(obs.x + obs.width/2, obs.y + obs.height*0.4, obs.width/2, Math.PI, 0);
             ctx.fill();
         } else if (obs.type === 'stump') {
-            ctx.fillStyle = '#4E342E';
-            ctx.fillRect(obs.x, obs.y + 8, obs.width, obs.height - 8);
+            ctx.fillStyle = '#3E2723';
+            ctx.fillRect(obs.x, obs.y + 6, obs.width, obs.height - 6);
         }
     });
 
-    // ウリボ描画
+    // 3. ウリボ（四角ではなく、輪郭で透過切り抜き）
     if (imageLoaded) {
-        const sx = bgImg.naturalWidth * 0.02;
-        const sy = bgImg.naturalHeight * 0.48;
-        const sw = bgImg.naturalWidth * 0.62;
-        const sh = bgImg.naturalHeight * 0.35;
+        ctx.save();
+        // 円形/楕円形にマスクを作成してウリボ部分だけを繰り抜く
+        ctx.beginPath();
+        ctx.ellipse(
+            player.x + player.width / 2,
+            player.y + player.height / 2,
+            player.width / 2,
+            player.height / 2,
+            0, 0, Math.PI * 2
+        );
+        ctx.clip(); // クリップマスク適用
+
+        const sx = bgImg.naturalWidth * 0.05;
+        const sy = bgImg.naturalHeight * 0.50;
+        const sw = bgImg.naturalWidth * 0.55;
+        const sh = bgImg.naturalHeight * 0.30;
+        
         ctx.drawImage(bgImg, sx, sy, sw, sh, player.x, player.y, player.width, player.height);
+        ctx.restore();
     } else {
         ctx.fillStyle = '#795548';
         ctx.beginPath();
-        ctx.ellipse(player.x + player.width/2, player.y + player.height/2, player.width/2, player.height/2 - 5, 0, 0, Math.PI*2);
+        ctx.ellipse(player.x + player.width/2, player.y + player.height/2, player.width/2, player.height/2, 0, 0, Math.PI*2);
         ctx.fill();
     }
 
-    // 砂ぼこり
+    // 4. 走る足元の小エフェクト
     if (player.isGrounded && gameState === 'PLAYING') {
-        ctx.fillStyle = 'rgba(255, 255, 255, 0.6)';
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.5)';
         ctx.beginPath();
-        ctx.arc(player.x - 2, player.y + player.height - 4, 4, 0, Math.PI * 2);
+        ctx.arc(player.x, player.y + player.height - 2, 3, 0, Math.PI * 2);
         ctx.fill();
     }
 }
