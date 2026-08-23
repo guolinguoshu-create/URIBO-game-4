@@ -3,39 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>お花畑のウリボダッシュ！</title>
+    <title>Uribo Chototsu Moshin!</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
         body { background: #121212; font-family: 'Hiragino Kaku Gothic ProN', sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; overflow: hidden; color: #fff; }
         
-        #outer-container { width: 100vw; height: 100vh; max-width: 450px; max-height: 850px; display: flex; flex-direction: column; justify-content: space-between; align-items: center; background: #1e1e24; padding: 12px; box-shadow: 0 0 20px rgba(0,0,0,0.8); position: relative; }
+        #outer-container { width: 100vw; height: 100vh; max-width: 450px; max-height: 850px; display: flex; flex-direction: column; justify-content: space-between; align-items: center; background: #1e1e24; padding: 10px; box-shadow: 0 0 20px rgba(0,0,0,0.8); position: relative; }
         
-        #game-header { width: 100%; display: flex; justify-content: space-between; align-items: center; padding: 6px 10px; color: #FFD700; flex-shrink: 0; }
-        #game-header span { font-weight: bold; font-size: 16px; text-shadow: 1px 1px 2px #000; }
-        #sound-toggle { font-size: 18px; background: #333; border: 1px solid #555; color: white; padding: 4px 12px; border-radius: 20px; cursor: pointer; }
+        #game-header { width: 100%; display: flex; justify-content: space-between; align-items: center; padding: 4px 8px; color: #FFD700; flex-shrink: 0; }
+        #game-header span { font-weight: bold; font-size: 14px; text-shadow: 1px 1px 2px #000; }
+        #sound-toggle { font-size: 16px; background: #333; border: 1px solid #555; color: white; padding: 2px 10px; border-radius: 20px; cursor: pointer; }
 
-        #canvas-wrapper { width: 100%; flex: 1; position: relative; overflow: hidden; border-radius: 16px; border: 3px solid #444; margin: 4px 0; }
+        #canvas-wrapper { width: 100%; flex: 1; position: relative; overflow: hidden; border-radius: 14px; border: 2px solid #444; margin: 4px 0; background: #87CEEB; }
         canvas { width: 100%; height: 100%; display: block; }
         
-        /* 下部：走行距離メインのフッター */
-        #game-footer { width: 100%; background: #2a2a35; padding: 14px 16px; border-radius: 12px; display: flex; justify-content: space-around; align-items: center; border: 1px solid #3d3d4e; flex-shrink: 0; }
+        /* 下部：走行距離が必ず画面内に収まるデザイン */
+        #game-footer { width: 100%; background: #2a2a35; padding: 10px 14px; border-radius: 10px; display: flex; justify-content: space-around; align-items: center; border: 1px solid #3d3d4e; flex-shrink: 0; }
         .stat-box { text-align: center; }
-        .stat-label { font-size: 12px; color: #aaa; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 2px; }
-        .stat-value { font-size: 26px; font-weight: 900; color: #00E676; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
+        .stat-label { font-size: 11px; color: #aaa; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 2px; }
+        .stat-value { font-size: 22px; font-weight: 900; color: #00E676; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
         .stat-value.high { color: #FFD700; }
 
-        .ui-screen { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; background: rgba(0,0,0,0.7); color: white; text-align: center; padding: 20px; z-index: 20; backdrop-filter: blur(3px); }
-        h1 { font-size: 24px; margin-bottom: 8px; color: #FFD700; text-shadow: 2px 2px 4px #000; font-weight: 900; }
+        .ui-screen { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; background: rgba(0,0,0,0.65); color: white; text-align: center; padding: 20px; z-index: 20; backdrop-filter: blur(2px); }
+        h1 { font-size: 26px; margin-bottom: 6px; color: #FFD700; text-shadow: 2px 2px 6px #000; font-weight: 900; line-height: 1.2; }
         .catchphrase { font-size: 13px; color: #FFF; background: #FF5722; padding: 4px 14px; border-radius: 20px; margin-bottom: 16px; font-weight: bold; box-shadow: 0 2px 4px rgba(0,0,0,0.3); }
         
-        input[type="text"] { width: 85%; padding: 12px 16px; font-size: 16px; border-radius: 25px; border: 2px solid #FF5722; background: #222; color: #fff; text-align: center; margin-bottom: 16px; outline: none; }
+        input[type="text"] { width: 85%; padding: 10px 14px; font-size: 15px; border-radius: 22px; border: 2px solid #FF5722; background: #222; color: #fff; text-align: center; margin-bottom: 14px; outline: none; }
         
-        button { padding: 14px 28px; font-size: 18px; font-weight: bold; background: #FF5722; color: white; border: none; border-radius: 30px; cursor: pointer; margin: 8px; box-shadow: 0 4px #BF360C; width: 80%; max-width: 240px; transition: transform 0.1s; }
+        button { padding: 12px 24px; font-size: 16px; font-weight: bold; background: #FF5722; color: white; border: none; border-radius: 30px; cursor: pointer; margin: 6px; box-shadow: 0 4px #BF360C; width: 80%; max-width: 220px; transition: transform 0.1s; }
         button:active { transform: translateY(2px); box-shadow: 0 2px #BF360C; }
 
-        .ranking-box { width: 95%; background: rgba(255,255,255,0.15); border-radius: 12px; padding: 10px; margin: 10px 0; font-size: 13px; text-align: left; }
-        .ranking-title { font-weight: bold; color: #FFD700; border-bottom: 1px solid rgba(255,255,255,0.2); padding-bottom: 4px; margin-bottom: 6px; text-align: center; }
-        .ranking-item { display: flex; justify-content: space-between; padding: 4px 8px; }
+        .ranking-box { width: 95%; background: rgba(255,255,255,0.15); border-radius: 10px; padding: 8px; margin: 8px 0; font-size: 12px; text-align: left; }
+        .ranking-title { font-weight: bold; color: #FFD700; border-bottom: 1px solid rgba(255,255,255,0.2); padding-bottom: 3px; margin-bottom: 4px; text-align: center; }
+        .ranking-item { display: flex; justify-content: space-between; padding: 3px 6px; }
         .ranking-item.me { background: rgba(255, 215, 0, 0.35); border-radius: 4px; font-weight: bold; color: #FFD700; }
     </style>
 </head>
@@ -43,7 +43,7 @@
 
 <div id="outer-container">
     <div id="game-header">
-        <span>🌸 お花畑のウリボダッシュ！</span>
+        <span>🌸 Uribo Chototsu Moshin!</span>
         <button id="sound-toggle">🔊</button>
     </div>
 
@@ -52,9 +52,9 @@
         
         <!-- スタート画面 -->
         <div id="start-screen" class="ui-screen">
-            <h1>🌸 お花畑のウリボダッシュ！</h1>
-            <div class="catchphrase">「ウリボしか勝たぬぅー！」</div>
-            <p style="margin-bottom:12px; font-size: 13px;">お名前を入力してスタート！</p>
+            <h1>Uribo Chototsu Moshin!</h1>
+            <div class="catchphrase">Uribo shika katanuu!</div>
+            <p style="margin-bottom:10px; font-size: 13px;">お名前を入力してスタート！</p>
             <input type="text" id="player-name-input" placeholder="名前を入力（例: ウリボ王）" maxlength="10">
             <button id="start-btn">ゲームスタート！</button>
         </div>
@@ -62,7 +62,7 @@
         <!-- ゲームオーバー画面 -->
         <div id="gameover-screen" class="ui-screen" style="display: none;">
             <h1 style="color:#FF5252;">💥 激突 GAMEOVER!!</h1>
-            <p id="final-score-text" style="font-size: 18px; font-weight: bold; margin: 6px 0; color: #FFF;">走行距離: 0m</p>
+            <p id="final-score-text" style="font-size: 16px; font-weight: bold; margin: 6px 0; color: #FFF;">走行距離: 0m</p>
             
             <div class="ranking-box">
                 <div class="ranking-title">🏆 全国ランキング (TOP 5)</div>
@@ -96,6 +96,12 @@ function resize() {
 }
 resize();
 window.addEventListener('resize', resize);
+
+// 元の背景画像
+const bgImg = new Image();
+bgImg.src = 'Screenshot_20260823-100724.png';
+let imageLoaded = false;
+bgImg.onload = () => { imageLoaded = true; };
 
 let audioCtx = null;
 let isMuted = false;
@@ -180,18 +186,16 @@ let score = 0;
 let highScore = parseInt(localStorage.getItem('uribo_highscore') || '0');
 let playerName = localStorage.getItem('uribo_playername') || '';
 let gameSpeed = 5;
-let bgScrollX = 0;
-let mountainScrollX = 0;
+let bgOffsetX = 0;
 
 document.getElementById('high-score-disp').innerText = `${highScore}m`;
 if (playerName) document.getElementById('player-name-input').value = playerName;
 
-// 走る位置を画面中央付近へ
 const player = {
-    x: 70,
+    x: 50,
     y: 0,
     width: 75,
-    height: 60,
+    height: 65,
     vy: 0,
     gravity: 0.65,
     jumpPower: -12.5,
@@ -257,7 +261,7 @@ function startGame() {
 
     score = 0;
     gameSpeed = 5;
-    const groundY = canvas.height * 0.65;
+    const groundY = canvas.height * 0.72;
     player.y = groundY - player.height;
     player.vy = 0;
     player.isGrounded = true;
@@ -286,10 +290,9 @@ function update() {
         document.getElementById('high-score-disp').innerText = `${highScore}m`;
     }
 
-    bgScrollX = (bgScrollX + gameSpeed * 0.2) % canvas.width;
-    mountainScrollX = (mountainScrollX + gameSpeed * 0.5) % canvas.width;
+    bgOffsetX = (bgOffsetX + gameSpeed * 0.7) % canvas.width;
 
-    const groundY = canvas.height * 0.65;
+    const groundY = canvas.height * 0.72;
     const floorY = groundY - player.height;
 
     player.vy += player.gravity;
@@ -306,7 +309,7 @@ function update() {
         const typeObj = obstacleTypes[Math.floor(Math.random() * obstacleTypes.length)];
         obstacles.push({
             x: canvas.width,
-            y: groundY - typeObj.height,
+            y: groundY - typeObj.height + 4,
             width: typeObj.width,
             height: typeObj.height,
             type: typeObj.type
@@ -340,62 +343,25 @@ function update() {
 function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    const groundY = canvas.height * 0.65;
+    const groundY = canvas.height * 0.72;
 
-    // 1. 空グラデーション
-    const skyGrad = ctx.createLinearGradient(0, 0, 0, groundY);
-    skyGrad.addColorStop(0, '#4fc3f7');
-    skyGrad.addColorStop(1, '#e1f5fe');
-    ctx.fillStyle = skyGrad;
-    ctx.fillRect(0, 0, canvas.width, groundY);
-
-    // 2. 遠くの山（ループ描画）
-    ctx.fillStyle = '#81c784';
-    for (let i = -1; i <= 1; i++) {
-        let mx = i * canvas.width - (mountainScrollX % canvas.width);
-        ctx.beginPath();
-        ctx.moveTo(mx, groundY);
-        ctx.lineTo(mx + canvas.width * 0.3, groundY - 110);
-        ctx.lineTo(mx + canvas.width * 0.7, groundY - 40);
-        ctx.lineTo(mx + canvas.width, groundY);
-        ctx.fill();
+    // 1. 背景画像をシームレスにスクロール描画
+    if (imageLoaded) {
+        ctx.drawImage(bgImg, -bgOffsetX, 0, canvas.width, canvas.height);
+        ctx.drawImage(bgImg, canvas.width - bgOffsetX, 0, canvas.width, canvas.height);
+    } else {
+        ctx.fillStyle = '#87CEEB';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = '#81C784';
+        ctx.fillRect(0, groundY, canvas.width, canvas.height - groundY);
     }
 
-    // 3. お花畑の地面
-    ctx.fillStyle = '#66bb6a';
-    ctx.fillRect(0, groundY, canvas.width, canvas.height - groundY);
-
-    // 地面の土の道筋
-    ctx.fillStyle = '#8d6e63';
-    ctx.fillRect(0, groundY, canvas.width, 22);
-
-    // 道に咲くお花たち
-    for (let i = -1; i <= 1; i++) {
-        let fx = i * canvas.width - (bgScrollX % canvas.width);
-        ctx.fillStyle = '#ffeb3b';
-        ctx.beginPath();
-        ctx.arc(fx + 60, groundY + 12, 5, 0, Math.PI * 2);
-        ctx.arc(fx + 180, groundY + 15, 6, 0, Math.PI * 2);
-        ctx.arc(fx + 300, groundY + 10, 5, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.fillStyle = '#ff7043';
-        ctx.beginPath();
-        ctx.arc(fx + 120, groundY + 14, 5, 0, Math.PI * 2);
-        ctx.arc(fx + 240, groundY + 12, 6, 0, Math.PI * 2);
-        ctx.fill();
-    }
-
-    // 4. 障害物の描画
+    // 2. 障害物の描画
     obstacles.forEach(obs => {
         if (obs.type === 'rock' || obs.type === 'big_rock') {
             ctx.fillStyle = '#5d4037';
             ctx.beginPath();
             ctx.ellipse(obs.x + obs.width/2, obs.y + obs.height/2, obs.width/2, obs.height/2, 0, 0, Math.PI*2);
-            ctx.fill();
-            // ハイライト
-            ctx.fillStyle = '#8d6e63';
-            ctx.beginPath();
-            ctx.ellipse(obs.x + obs.width/2 - 4, obs.y + obs.height/2 - 4, obs.width/4, obs.height/4, 0, 0, Math.PI*2);
             ctx.fill();
         } else if (obs.type === 'mushroom') {
             ctx.fillStyle = '#fff8e1';
@@ -404,81 +370,46 @@ function draw() {
             ctx.beginPath();
             ctx.arc(obs.x + obs.width/2, obs.y + obs.height*0.4, obs.width/2, Math.PI, 0);
             ctx.fill();
-            // 水玉模様
-            ctx.fillStyle = '#fff';
-            ctx.beginPath();
-            ctx.arc(obs.x + obs.width*0.35, obs.y + obs.height*0.25, 3, 0, Math.PI*2);
-            ctx.arc(obs.x + obs.width*0.65, obs.y + obs.height*0.25, 3, 0, Math.PI*2);
-            ctx.fill();
         } else if (obs.type === 'stump') {
             ctx.fillStyle = '#3e2723';
             ctx.fillRect(obs.x, obs.y + 6, obs.width, obs.height - 6);
-            ctx.fillStyle = '#795548';
-            ctx.beginPath();
-            ctx.ellipse(obs.x + obs.width/2, obs.y + 6, obs.width/2, 5, 0, 0, Math.PI*2);
-            ctx.fill();
         }
     });
 
-    // 5. ウリボ描画（輪郭ベースのかわいいイラスト表現）
-    const cx = player.x + player.width / 2;
-    const cy = player.y + player.height / 2;
+    // 3. ウリボを元の画像からきれいに切り抜いて描画
+    if (imageLoaded) {
+        ctx.save();
+        // ウリボの輪郭に合わせてクリップマスクを適用（丸型ではなくキャラクターの形）
+        ctx.beginPath();
+        ctx.ellipse(
+            player.x + player.width / 2,
+            player.y + player.height / 2 + 4,
+            player.width * 0.45,
+            player.height * 0.42,
+            0, 0, Math.PI * 2
+        );
+        ctx.clip();
 
-    // 体（茶色い楕円）
-    ctx.fillStyle = '#8d5524';
-    ctx.beginPath();
-    ctx.ellipse(cx, cy + 4, player.width * 0.45, player.height * 0.38, 0, 0, Math.PI * 2);
-    ctx.fill();
+        // 3枚目の元画像内にあるウリボの座標位置を指定して切り出し
+        const sx = bgImg.naturalWidth * 0.02;
+        const sy = bgImg.naturalHeight * 0.48;
+        const sw = bgImg.naturalWidth * 0.62;
+        const sh = bgImg.naturalHeight * 0.35;
 
-    // 背中のウリボ特有のしま模様（白っぽいライン）
-    ctx.strokeStyle = '#fff8e1';
-    ctx.lineWidth = 3;
-    ctx.beginPath();
-    ctx.arc(cx - 2, cy - 2, player.height * 0.3, Math.PI * 1.1, Math.PI * 1.6);
-    ctx.stroke();
-    ctx.beginPath();
-    ctx.arc(cx + 8, cy - 2, player.height * 0.3, Math.PI * 1.1, Math.PI * 1.6);
-    ctx.stroke();
+        ctx.drawImage(bgImg, sx, sy, sw, sh, player.x, player.y, player.width, player.height);
+        ctx.restore();
+    } else {
+        ctx.fillStyle = '#795548';
+        ctx.beginPath();
+        ctx.ellipse(player.x + player.width/2, player.y + player.height/2, player.width/2, player.height/2, 0, 0, Math.PI*2);
+        ctx.fill();
+    }
 
-    // 頭・鼻まわり
-    ctx.fillStyle = '#a0522d';
-    ctx.beginPath();
-    ctx.arc(cx + player.width * 0.22, cy - 2, player.height * 0.32, 0, Math.PI * 2);
-    ctx.fill();
-
-    // お鼻（ピンク）
-    ctx.fillStyle = '#ff8a80';
-    ctx.beginPath();
-    ctx.ellipse(cx + player.width * 0.38, cy + 2, 7, 5, 0, 0, Math.PI * 2);
-    ctx.fill();
-
-    // 目（ぱっちり黒目＆ハイライト）
-    ctx.fillStyle = '#000';
-    ctx.beginPath();
-    ctx.arc(cx + player.width * 0.22, cy - 8, 4, 0, Math.PI * 2);
-    ctx.fill();
-    ctx.fillStyle = '#fff';
-    ctx.beginPath();
-    ctx.arc(cx + player.width * 0.24, cy - 10, 1.5, 0, Math.PI * 2);
-    ctx.fill();
-
-    // 耳
-    ctx.fillStyle = '#6d4c41';
-    ctx.beginPath();
-    ctx.arc(cx + player.width * 0.08, cy - 18, 7, 0, Math.PI * 2);
-    ctx.fill();
-
-    // 足（走るアニメーション風に少し動かす）
-    ctx.fillStyle = '#5d4037';
-    let legOffset = (Math.floor(score * 2) % 2 === 0) ? 4 : -4;
-    ctx.fillRect(cx - 14 + legOffset, cy + player.height * 0.35, 7, 12);
-    ctx.fillRect(cx + 8 - legOffset, cy + player.height * 0.35, 7, 12);
-
-    // 走る足元の土煙
+    // 4. 走る足元の土煙エフェクト
     if (player.isGrounded && gameState === 'PLAYING') {
         ctx.fillStyle = 'rgba(255, 255, 255, 0.7)';
         ctx.beginPath();
-        ctx.arc(player.x - 4, groundY - 2, 4, 0, Math.PI * 2);
+        ctx.arc(player.x - 2, groundY - 2, 4, 0, Math.PI * 2);
         ctx.fill();
     }
 }
@@ -503,4 +434,3 @@ loop();
 </script>
 </body>
 </html>
-
