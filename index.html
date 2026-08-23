@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>お花畑のウリボダッシュ！</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
+        body { background: #121212; font-family: 'Hiragino Kaku Gothic ProN', sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; overflow: hidden; color: #fff; }
+        
+        #outer-container { width: 100vw; height: 100vh; max-width: 450px; max-height: 850px; display: flex; flex-direction: column; justify-content: space-between; align-items: center; background: #1e1e24; padding: 12px; box-shadow: 0 0 20px rgba(0,0,0,0.8); position: relative; }
+        
+        #game-header { width: 100%; display: flex; justify-content: space-between; align-items: center; padding: 4px 8px; font-weight: bold; font-size: 15px; color: #FFD700; }
+        #sound-toggle { font-size: 18px; background: #333; border: 1px solid #555; color: white; padding: 4px 12px; border-radius: 20px; cursor: pointer; }
+
+        #canvas-wrapper { width: 100%; flex: 1; position: relative; overflow: hidden; border-radius: 16px; background: #87CEEB; border: 3px solid #444; margin: 8px 0; }
+        canvas { width: 100%; height: 100%; display: block; }
+        
+        #game-footer { width: 100%; background: #2a2a35; padding: 12px; border-radius: 12px; display: flex; justify-content: space-around; align-items: center; border: 1px solid #3d3d4e; }
+        .stat-box { text-align: center; }
+        .stat-label { font-size: 11px; color: #aaa; text-transform: uppercase; letter-spacing: 1px; }
+        .stat-value { font-size: 22px; font-weight: 900; color: #00E676; }
+        .stat-value.high { color: #FFD700; }
+
+        .ui-screen { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; background: rgba(0,0,0,0.5); color: white; text-align: center; padding: 20px; z-index: 20; backdrop-filter: blur(2px); }
+        h1 { font-size: 24px; margin-bottom: 8px; color: #FFD700; text-shadow: 2px 2px 4px #000; font-weight: 900; }
+        .catchphrase { font-size: 13px; color: #FFF; background: #FF5722; padding: 4px 14px; border-radius: 20px; margin-bottom: 16px; font-weight: bold; }
+        
+        input[type="text"] { width: 80%; padding: 10px 15px; font-size: 16px; border-radius: 20px; border: 2px solid #FF5722; background: #222; color: #fff; text-align: center; margin-bottom: 15px; outline: none; }
+        
+        button { padding: 14px 28px; font-size: 18px; font-weight: bold; background: #FF5722; color: white; border: none; border-radius: 30px; cursor: pointer; margin: 8px; box-shadow: 0 4px #BF360C; width: 80%; max-width: 240px; transition: transform 0.1s; }
+        button:active { transform: translateY(2px); box-shadow: 0 2px #BF360C; }
+
+        .ranking-box { width: 90%; background: rgba(255,255,255,0.15); border-radius: 12px; padding: 10px; margin: 10px 0; font-size: 13px; text-align: left; }
+        .ranking-title { font-weight: bold; color: #FFD700; border-bottom: 1px solid rgba(255,255,255,0.2); padding-bottom: 4px; margin-bottom: 6px; text-align: center; }
+        .ranking-item { display: flex; justify-content: space-between; padding: 3px 6px; }
+        .ranking-item.me { background: rgba(255, 215, 0, 0.3); border-radius: 4px; font-weight: bold; color: #FFD700; }
+    </style>
+</head>
+<body>
+
+<div id="outer-container">
+    <div id="game-header">
+        <span>🌸 お花畑のウリボダッシュ！</span>
+        <button id="sound-toggle">🔊</button>
+    </div>
+
+    <div id="canvas-wrapper">
+        <canvas id="gameCanvas"></canvas>
+        
+        <!-- スタート画面 -->
+        <div id="start-screen" class="ui-screen">
+            <h1>🌸 お花畑のウリボダッシュ！</h1>
+            <div class="catchphrase">「ウリボしか勝たぬぅー！」</div>
+            <p style="margin-bottom:10px; font-size: 13px;">お名前を入力してスタート！</p>
+            <input type="text" id="player-name-input" placeholder="名前を入力（例: ウリボ王）" maxlength="10">
+            <button id="start-btn">ゲームスタート！</button>
+        </div>
+
+        <!-- ゲームオーバー画面 -->
+        <div id="gameover-screen" class="ui-screen" style="display: none;">
+            <h1 style="color:#FF5252;">💥 激突 GAMEOVER!!</h1>
+            <p id="final-score-text" style="font-size: 18px; font-weight: bold; margin: 6px 0; color: #FFF;">走行距離: 0m</p>
+            
+            <div class="ranking-box">
+                <div class="ranking-title">🏆 全国ランキング (TOP 5)</div>
+                <div id="ranking-list"></div>
+            </div>
+
+            <button id="restart-btn">もう一度挑戦！</button>
+        </div>
+    </div>
+
+    <!-- 下部ステータス表示 -->
+    <div id="game-footer">
+        <div class="stat-box">
+            <div class="stat-label">現在の距離</div>
+            <div class="stat-value" id="current-score-disp">0m</div>
+        </div>
+        <div class="stat-box">
+            <div class="stat-label">自己ベスト</div>
+            <div class="stat-value high" id="high-score-disp">0m</div>
+        </div>
+    </div>
+</div>
+
+<script>
+const canvas = document.getElementById('gameCanvas');
+const ctx = canvas.getContext('2d');
+
+function resize() {
+    canvas.width = canvas.parentElement.clientWidth;
+    canvas.height = canvas.parentElement.clientHeight;
+}
+resize();
+window.addEventListener('resize', resize);
+
+// 正しいファイル名（0823）に修正
+const bgImg = new Image();
+bgImg.src = 'Screenshot_20260823-100724.png';
+let imageLoaded = false;
+bgImg.onload = () => { imageLoaded = true; };
+
+let audioCtx = null;
+let isMuted = false;
+let bgmTimer = null;
+
+function initAudio() {
+    if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    }
+}
+
+function playJumpSound() {
+    if (isMuted || !audioCtx) return;
+    try {
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(250, audioCtx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(700, audioCtx.currentTime + 0.12);
+        gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.12);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start();
+        osc.stop(audioCtx.currentTime + 0.12);
+    } catch(e){}
+}
+
+function playCrashSound() {
+    if (isMuted || !audioCtx) return;
+    try {
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = 'sawtooth';
+        osc.frequency.setValueAtTime(200, audioCtx.currentTime);
+        osc.frequency.linearRampToValueAtTime(30, audioCtx.currentTime + 0.4);
+        gain.gain.setValueAtTime(0.5, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.4);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start();
+        osc.stop(audioCtx.currentTime + 0.4);
+    } catch(e){}
+}
+
+const bgmMelody = [
+    220.00, 220.00, 261.63, 220.00, 293.66, 220.00, 329.63, 261.63,
+    220.00, 220.00, 261.63, 220.00, 246.94, 220.00, 207.65, 220.00
+];
+let bgmIndex = 0;
+
+function startBGM() {
+    if (bgmTimer) clearInterval(bgmTimer);
+    bgmTimer = setInterval(() => {
+        if (gameState === 'PLAYING' && !isMuted && audioCtx) {
+            try {
+                const freq = bgmMelody[bgmIndex % bgmMelody.length];
+                bgmIndex++;
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.type = 'sawtooth';
+                osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+                gain.gain.setValueAtTime(0.04, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.11);
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                osc.start();
+                osc.stop(audioCtx.currentTime + 0.11);
+            } catch(e){}
+        }
+    }, 140);
+}
+
+document.getElementById('sound-toggle').addEventListener('click', (e) => {
+    e.stopPropagation();
+    isMuted = !isMuted;
+    document.getElementById('sound-toggle').innerText = isMuted ? '🔇' : '🔊';
+});
+
+let gameState = 'START';
+let score = 0;
+let highScore = parseInt(localStorage.getItem('uribo_highscore') || '0');
+let playerName = localStorage.getItem('uribo_playername') || '';
+let gameSpeed = 6;
+let bgOffsetX = 0;
+
+document.getElementById('high-score-disp').innerText = `${highScore}m`;
+if (playerName) document.getElementById('player-name-input').value = playerName;
+
+const player = {
+    x: 40,
+    y: 0,
+    width: 80,
+    height: 70,
+    vy: 0,
+    gravity: 0.7,
+    jumpPower: -13.5,
+    isGrounded: false
+};
+
+let obstacles = [];
+let spawnTimer = 0;
+let nextSpawnDelay = 50;
+
+const obstacleTypes = [
+    { type: 'rock', width: 40, height: 40 },
+    { type: 'big_rock', width: 55, height: 55 },
+    { type: 'mushroom', width: 38, height: 48 },
+    { type: 'stump', width: 45, height: 38 }
+];
+
+function doJump() {
+    if (gameState === 'PLAYING' && player.isGrounded) {
+        player.vy = player.jumpPower;
+        player.isGrounded = false;
+        playJumpSound();
+    }
+}
+
+document.getElementById('canvas-wrapper').addEventListener('touchstart', (e) => {
+    if (gameState === 'PLAYING') {
+        e.preventDefault();
+        doJump();
+    }
+}, { passive: false });
+
+document.getElementById('canvas-wrapper').addEventListener('mousedown', (e) => {
+    if (gameState === 'PLAYING') {
+        doJump();
+    }
+});
+
+function updateRankings(currentScore, name) {
+    let rankings = JSON.parse(localStorage.getItem('uribo_rankings') || '[]');
+    rankings.push({ name: name, score: Math.floor(currentScore), date: new Date().toLocaleDateString() });
+    
+    rankings.sort((a, b) => b.score - a.score);
+    rankings = rankings.slice(0, 5);
+    localStorage.setItem('uribo_rankings', JSON.stringify(rankings));
+
+    const listEl = document.getElementById('ranking-list');
+    listEl.innerHTML = '';
+    rankings.forEach((item, idx) => {
+        const isMe = (item.name === name && item.score === Math.floor(currentScore));
+        const div = document.createElement('div');
+        div.className = `ranking-item ${isMe ? 'me' : ''}`;
+        div.innerHTML = `<span>${idx + 1}位: ${item.name}</span><span>${item.score}m</span>`;
+        listEl.appendChild(div);
+    });
+}
+
+function startGame() {
+    initAudio();
+    const nameInput = document.getElementById('player-name-input').value.trim();
+    playerName = nameInput || '名無しウリボ';
+    localStorage.setItem('uribo_playername', playerName);
+
+    score = 0;
+    gameSpeed = 6;
+    const gHeight = canvas.height * 0.22;
+    player.y = canvas.height - gHeight - player.height;
+    player.vy = 0;
+    player.isGrounded = true;
+    obstacles = [];
+    spawnTimer = 0;
+    nextSpawnDelay = Math.floor(Math.random() * 30) + 40;
+    gameState = 'PLAYING';
+    
+    document.getElementById('start-screen').style.display = 'none';
+    document.getElementById('gameover-screen').style.display = 'none';
+    
+    startBGM();
+}
+
+function update() {
+    if (gameState !== 'PLAYING') return;
+
+    score += 0.18;
+    gameSpeed = 6 + (score / 40);
+    const roundedScore = Math.floor(score);
+    document.getElementById('current-score-disp').innerText = `${roundedScore}m`;
+
+    if (roundedScore > highScore) {
+        highScore = roundedScore;
+        localStorage.setItem('uribo_highscore', highScore);
+        document.getElementById('high-score-disp').innerText = `${highScore}m`;
+    }
+
+    bgOffsetX = (bgOffsetX + gameSpeed * 0.6) % canvas.width;
+
+    const gHeight = canvas.height * 0.22;
+    const floorY = canvas.height - gHeight - player.height;
+
+    player.vy += player.gravity;
+    player.y += player.vy;
+
+    if (player.y >= floorY) {
+        player.y = floorY;
+        player.vy = 0;
+        player.isGrounded = true;
+    }
+
+    spawnTimer++;
+    if (spawnTimer >= nextSpawnDelay) {
+        const typeObj = obstacleTypes[Math.floor(Math.random() * obstacleTypes.length)];
+        obstacles.push({
+            x: canvas.width,
+            y: canvas.height - gHeight - typeObj.height + 5,
+            width: typeObj.width,
+            height: typeObj.height,
+            type: typeObj.type
+        });
+        spawnTimer = 0;
+        const minDelay = Math.max(25, 60 - Math.floor(gameSpeed * 2.5));
+        nextSpawnDelay = Math.floor(Math.random() * 35) + minDelay;
+    }
+
+    for (let i = obstacles.length - 1; i >= 0; i--) {
+        let obs = obstacles[i];
+        obs.x -= gameSpeed;
+
+        if (
+            player.x + 15 < obs.x + obs.width &&
+            player.x + player.width - 15 > obs.x &&
+            player.y + 10 < obs.y + obs.height &&
+            player.y + player.height > obs.y
+        ) {
+            gameState = 'GAMEOVER';
+            playCrashSound();
+            document.getElementById('final-score-text').innerText = `走った距離: ${roundedScore}m`;
+            updateRankings(score, playerName);
+            document.getElementById('gameover-screen').style.display = 'flex';
+        }
+
+        if (obs.x + obs.width < 0) obstacles.splice(i, 1);
+    }
+}
+
+function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    // 背景描画
+    if (imageLoaded) {
+        ctx.drawImage(bgImg, -bgOffsetX, 0, canvas.width, canvas.height);
+        ctx.drawImage(bgImg, canvas.width - bgOffsetX, 0, canvas.width, canvas.height);
+    } else {
+        ctx.fillStyle = '#87CEEB';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = '#81C784';
+        ctx.fillRect(0, canvas.height * 0.78, canvas.width, canvas.height * 0.22);
+    }
+
+    // 障害物描画
+    obstacles.forEach(obs => {
+        if (obs.type === 'rock' || obs.type === 'big_rock') {
+            ctx.fillStyle = '#6D4C41';
+            ctx.beginPath();
+            ctx.ellipse(obs.x + obs.width/2, obs.y + obs.height/2, obs.width/2, obs.height/2, 0, 0, Math.PI*2);
+            ctx.fill();
+        } else if (obs.type === 'mushroom') {
+            ctx.fillStyle = '#FFF8E1';
+            ctx.fillRect(obs.x + obs.width*0.35, obs.y + obs.height*0.4, obs.width*0.3, obs.height*0.6);
+            ctx.fillStyle = '#E53935';
+            ctx.beginPath();
+            ctx.arc(obs.x + obs.width/2, obs.y + obs.height*0.4, obs.width/2, Math.PI, 0);
+            ctx.fill();
+        } else if (obs.type === 'stump') {
+            ctx.fillStyle = '#4E342E';
+            ctx.fillRect(obs.x, obs.y + 8, obs.width, obs.height - 8);
+        }
+    });
+
+    // ウリボ描画
+    if (imageLoaded) {
+        const sx = bgImg.naturalWidth * 0.02;
+        const sy = bgImg.naturalHeight * 0.48;
+        const sw = bgImg.naturalWidth * 0.62;
+        const sh = bgImg.naturalHeight * 0.35;
+        ctx.drawImage(bgImg, sx, sy, sw, sh, player.x, player.y, player.width, player.height);
+    } else {
+        ctx.fillStyle = '#795548';
+        ctx.beginPath();
+        ctx.ellipse(player.x + player.width/2, player.y + player.height/2, player.width/2, player.height/2 - 5, 0, 0, Math.PI*2);
+        ctx.fill();
+    }
+
+    // 砂ぼこり
+    if (player.isGrounded && gameState === 'PLAYING') {
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.6)';
+        ctx.beginPath();
+        ctx.arc(player.x - 2, player.y + player.height - 4, 4, 0, Math.PI * 2);
+        ctx.fill();
+    }
+}
+
+function loop() {
+    update();
+    draw();
+    requestAnimationFrame(loop);
+}
+
+document.getElementById('start-btn').addEventListener('click', (e) => {
+    e.stopPropagation();
+    startGame();
+});
+
+document.getElementById('restart-btn').addEventListener('click', (e) => {
+    e.stopPropagation();
+    startGame();
+});
+
+loop();
+</script>
+</body>
+</html>
